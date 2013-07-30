@@ -1,7 +1,9 @@
 package cards;
 
+import java.util.*;
+
 public class Deck {
-    private CardList<Card> cards = new CardList<Card>();
+    private ArrayList<Card> cards = new ArrayList<Card>();
     private int deckPointer = 0;
 
     public Deck() {

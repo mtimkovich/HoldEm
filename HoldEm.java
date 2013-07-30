@@ -2,7 +2,7 @@ import java.util.*;
 import cards.*;
 
 class Player {
-    private CardList<Card> hand = new CardList<Card>();
+    private ArrayList<Card> hand = new ArrayList<Card>();
     private String name;
 
     public Player(String n) {
@@ -15,7 +15,7 @@ class Player {
         }
     }
 
-    public CardList<Card> getHand() {
+    public ArrayList<Card> getHand() {
         return hand;
     }
 
@@ -77,7 +77,7 @@ public class HoldEm {
 
         final int PLAYER_COUNT = 2;
 
-        CardList<Card> community = new CardList<Card>();
+        ArrayList<Card> community = new ArrayList<Card>();
 
         ArrayList<Player> players = new ArrayList<Player>();
 
