@@ -1,14 +1,17 @@
 package cards;
 
 import java.util.*;
+import cards.Card.*;
 
 public class Deck {
     private ArrayList<Card> cards = new ArrayList<Card>();
     private int deckPointer = 0;
 
     public Deck() {
-        for (int i = 0; i < 52; i++) {
-            cards.add(new Card(i % 4, i % 13));
+        for (Rank rank : Rank.values()) {
+            for (Suit suit : Card.Suit.values()) {
+                cards.add(new Card(suit, rank));
+            }
         }
     }
 
@@ -28,6 +31,7 @@ public class Deck {
         return cards.get(deckPointer++);
     }
 
+    @Override
     public String toString() {
         return cards.toString();
     }

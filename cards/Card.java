@@ -1,71 +1,80 @@
 package cards;
 
 public class Card implements Cloneable, Comparable<Card> {
-    private int suit;
-    private int value;
+    public enum Suit {
+        HEART("♥"),
+        CLUB("♣"),
+        DIAMOND("♦"),
+        SPADE("♠");
 
-    public Card(int s, int v) {
+        private String output;
+
+        private Suit(String o) {
+            output = o;
+        }
+            
+        public String toString() {
+            return output;
+        }
+    }
+
+    public enum Rank {
+        TWO("2"),
+        THREE("3"),
+        FOUR("4"),
+        FIVE("5"),
+        SIX("6"),
+        SEVEN("7"),
+        EIGHT("8"),
+        NINE("9"),
+        TEN("10"),
+        JACK("J"),
+        QUEEN("Q"),
+        KING("K"),
+        ACE("A");
+
+        private String output;
+
+        private Rank(String o) {
+            output = o;
+        }
+
+        public String toString() {
+            return output;
+        }
+    }
+    
+    private Suit suit;
+    private Rank rank;
+
+    public Card(Suit s, Rank r) {
         suit = s;
-        value = v;
+        rank = r;
     }
 
-    private String suitToString(int s) {
-        switch (s) {
-            case 0:
-                return "♥";
-            case 1:
-                return "♣";
-            case 2:
-                return "♦";
-            case 3:
-                return "♠";
-        }
-
-        return "";
-    }
-
-    private String valueToString(int v) {
-        int w = v + 2;
-
-        if (w <= 10) {
-            return String.valueOf(w);
-        } else {
-            switch (w) {
-                case  11:
-                    return "J";
-                case 12:
-                    return "Q";
-                case 13:
-                    return "K";
-                case 14:
-                    return "A";
-            }
-        }
-
-        return "";
-    }
-
-    public int getSuit() {
+    public Suit getSuit() {
         return suit;
     }
 
-    public int getValue() {
-        return value;
+    public Rank getRank() {
+        return rank;
     }
 
+    @Override
     public Card clone() {
-        return new Card(suit, value);
+        return new Card(suit, rank);
     }
 
+    @Override
     public int compareTo(Card b) {
-        if (value > b.getValue()) {
+        if (rank.compareTo(b.getRank()) > 0) {
             return 1;
-        } else if (value < b.getValue()) {
+        } else if (rank.compareTo(b.getRank()) < 0) {
             return -1;
         } else {
-            if (suit > b.getSuit()) {
+            if (suit.compareTo(b.getSuit()) > 0) {
                 return 1;
-            } else if (suit < b.getSuit()) {
+            } else if (suit.compareTo(b.getSuit()) < 0) {
                 return -1;
             } else {
                 return 0;
@@ -73,7 +82,8 @@ public class Card implements Cloneable, Comparable<Card> {
         }
     }
 
+    @Override
     public String toString() {
-        return valueToString(value) + suitToString(suit);
+        return rank.toString() + suit.toString();
     }
 }
