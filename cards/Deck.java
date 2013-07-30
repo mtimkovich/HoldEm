@@ -9,7 +9,7 @@ public class Deck {
 
     public Deck() {
         for (Rank rank : Rank.values()) {
-            for (Suit suit : Card.Suit.values()) {
+            for (Suit suit : Suit.values()) {
                 cards.add(new Card(suit, rank));
             }
         }
