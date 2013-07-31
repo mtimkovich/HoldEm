@@ -3,8 +3,8 @@ package cards;
 import java.util.*;
 
 public class RankHand {
-    public static Hand containsStreak(ArrayList<Card> cards, int length) {
-        ArrayList<Card> streak = new ArrayList<Card>();
+    public static Hand containsStreak(List<Card> cards, int length) {
+        List<Card> streak = new ArrayList<Card>();
 
         for (int i = 0; i < cards.size()-1; i++) {
             Card next = cards.get(i+1);
@@ -43,16 +43,18 @@ public class RankHand {
         return null;
     }
 
-    public static Hand containsTwoPair(ArrayList<Card> cards) {
+    public static Hand containsTwoPair(List<Card> cards) {
         Hand onePair = containsStreak(cards, 2);
 
         if (onePair == null) {
             return null;
         }
+
+        return null;
     }
 
-    public static Hand rank(ArrayList<Card> player, ArrayList<Card> community) {
-        ArrayList<Card> cards = new ArrayList<Card>();
+    public static Hand rank(List<Card> player, List<Card> community) {
+        List<Card> cards = new ArrayList<Card>();
 
         cards.addAll(player);
         cards.addAll(community);

@@ -3,7 +3,7 @@ import cards.*;
 import cards.Hand.*;
 
 class Player {
-    private ArrayList<Card> hand = new ArrayList<Card>();
+    private List<Card> hand = new ArrayList<Card>();
     private String name;
 
     public Player(String n) {
@@ -16,7 +16,7 @@ class Player {
         }
     }
 
-    public ArrayList<Card> getHand() {
+    public List<Card> getHand() {
         return hand;
     }
 
@@ -34,9 +34,9 @@ public class HoldEm {
 
         final int PLAYER_COUNT = 2;
 
-        ArrayList<Card> community = new ArrayList<Card>();
+        List<Card> community = new ArrayList<Card>();
 
-        ArrayList<Player> players = new ArrayList<Player>();
+        List<Player> players = new ArrayList<Player>();
 
         for (int i = 0; i < PLAYER_COUNT; i++) {
             players.add(new Player("Player " + (i + 1)));
