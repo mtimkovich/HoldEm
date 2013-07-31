@@ -27,23 +27,26 @@ class Player {
 }
 
 public class HoldEm {
-    public static Hand containsPair(ArrayList<Card> cards) {
+    public static Hand containsStreak(ArrayList<Card> cards, int length) {
         ArrayList<Card> streak = new ArrayList<Card>();
 
         for (int i = 0; i < cards.size()-1; i++) {
-            streak.add(cards.get(i));
             Card next = cards.get(i+1);
 
             if (cards.get(i).getRank().equals(next.getRank())) {
+                if (streak.isEmpty()) {
+                    streak.add(cards.get(i));
+                }
+
                 streak.add(next);
             } else {
                 streak.clear();
             }
 
-            if (streak.size() == 2) {
+            if (streak.size() == length) {
                 Hand hand = new Hand();
 
-                hand.setHandRank(Hands.ONE_PAIR);
+                hand.setHandStreak(length);
 
                 hand.addAll(streak);
 
@@ -52,7 +55,7 @@ public class HoldEm {
                         break;
                     }
 
-                    if (! streak.contains(card)) {
+                    if (! hand.getCards().contains(card)) {
                         hand.add(card);
                     }
                 }
@@ -73,8 +76,16 @@ public class HoldEm {
         Collections.sort(cards, Collections.reverseOrder());
 
         System.out.println(cards);
-        Hand hand = containsPair(cards);
-        System.out.println(hand);
+        Hand hand = null;
+
+        for (int i = 4; i >= 2; i--) {
+            hand = containsStreak(cards, i);
+
+            if (hand != null) {
+                System.out.println(hand);
+                break;
+            }
+        }
 
 
         return hand;

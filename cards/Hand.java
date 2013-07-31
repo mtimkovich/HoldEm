@@ -45,6 +45,20 @@ public class Hand {
         return cards;
     }
 
+    public void setHandStreak(int streak) {
+        switch (streak) {
+            case 2:
+                handRank = Hands.ONE_PAIR;
+                break;
+            case 3:
+                handRank = Hands.THREE_OF_A_KIND;
+                break;
+            case 4:
+                handRank = Hands.FOUR_OF_A_KIND;
+                break;
+        }
+    }
+
     @Override
     public String toString() {
         return handRank.toString() + ": " + cards.toString();
