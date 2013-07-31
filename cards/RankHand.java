@@ -56,6 +56,36 @@ public class RankHand {
         return containsStreak(cards, length, null);
     }
 
+    private static Hand containsFullHouse(List<Card> cards) {
+        Hand output = new Hand();
+
+        Hand three = containsStreak(cards, 3);
+
+        if (three == null) {
+            return null;
+        }
+
+        Card.Rank threeRank = three.getCards().get(0).getRank(); 
+
+        Hand two = containsStreak(cards, 2, threeRank);
+
+        if (two == null) {
+            return null;
+        }
+
+        // Extract just the streaks from three and two
+        List threeCards = three.getCards().subList(0, 3);
+        List twoCards = two.getCards().subList(0, 2);
+
+        output.setHandRank(Hands.FULL_HOUSE);
+        output.addAll(threeCards);
+        output.addAll(twoCards);
+
+        System.out.println(output);
+
+        return output;
+    }
+
     private static Hand containsTwoPair(List<Card> cards) {
         Hand output = new Hand();
         Hand onePair = containsStreak(cards, 2);
@@ -72,6 +102,7 @@ public class RankHand {
             return null;
         }
 
+        // Extract just the pair from onePair
         List onePairCards = onePair.getCards().subList(0, 2);
         List twoPairCards = twoPair.getCards();
 
@@ -98,7 +129,7 @@ public class RankHand {
         Collections.sort(cards, Collections.reverseOrder());
 
         System.out.println(cards);
-        Hand hand = containsTwoPair(cards);
+        Hand hand = containsFullHouse(cards);
 
 //         for (int i = 4; i >= 2; i--) {
 //             hand = containsStreak(cards, i);
