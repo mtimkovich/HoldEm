@@ -5,6 +5,19 @@ import cards.*;
 import cards.Hand.*;
 
 public class RankHand {
+    // Order by suit, then rank, desc
+    private static Comparator<Card> sortBySuit = new Comparator<Card>() {
+        public int compare(Card a, Card b) {
+            int suitCompare = a.getSuit().compareTo(b.getSuit());
+
+            if (suitCompare != 0) {
+                return suitCompare;
+            } else {
+                return -a.getRank().compareTo(b.getRank());
+            }
+        }
+    };
+
     // prev is so the full house and two pair functions can use this method
     private static Hand containsStreak(List<Card> cards, int length, Card.Rank prev) {
         List<Card> streak = new ArrayList<Card>();
@@ -81,8 +94,6 @@ public class RankHand {
         output.addAll(threeCards);
         output.addAll(twoCards);
 
-        System.out.println(output);
-
         return output;
     }
 
@@ -115,9 +126,39 @@ public class RankHand {
         output.addAll(onePairCards);
         output.addAll(twoPairCards);
 
-        System.out.println(output);
-
         return output;
+    }
+
+    private static Hand containsFlush(List<Card> cards) {
+        List<Card> newCards = new ArrayList<Card>(cards);
+        Collections.sort(newCards, sortBySuit);
+
+        List<Card> streak = new ArrayList<Card>();
+
+        for (int i = 0; i < newCards.size()-1; i++) {
+            Card next = newCards.get(i+1);
+
+            if (newCards.get(i).getSuit().equals(next.getSuit())) {
+                if (streak.isEmpty()) {
+                    streak.add(newCards.get(i));
+                }
+
+                streak.add(next);
+            } else {
+                streak.clear();
+            }
+
+            if (streak.size() == 5) {
+                Hand hand = new Hand();
+
+                hand.setHandRank(Hands.FLUSH);
+                hand.addAll(streak);
+
+                return hand;
+            }
+        }
+
+        return null;
     }
 
     public Hand rank(List<Card> player, List<Card> community) {
@@ -128,8 +169,8 @@ public class RankHand {
 
         Collections.sort(cards, Collections.reverseOrder());
 
-        System.out.println(cards);
-        Hand hand = containsFullHouse(cards);
+//         System.out.println(cards);
+        Hand hand = containsFlush(cards);
 
 //         for (int i = 4; i >= 2; i--) {
 //             hand = containsStreak(cards, i);
