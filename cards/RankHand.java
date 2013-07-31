@@ -43,6 +43,14 @@ public class RankHand {
         return null;
     }
 
+    public static Hand containsTwoPair(ArrayList<Card> cards) {
+        Hand onePair = containsStreak(cards, 2);
+
+        if (onePair == null) {
+            return null;
+        }
+    }
+
     public static Hand rank(ArrayList<Card> player, ArrayList<Card> community) {
         ArrayList<Card> cards = new ArrayList<Card>();
 
