@@ -1,5 +1,6 @@
 import java.util.*;
 import cards.*;
+import cards.Hand.*;
 
 class Player {
     private ArrayList<Card> hand = new ArrayList<Card>();
@@ -26,19 +27,44 @@ class Player {
 }
 
 public class HoldEm {
-    public enum Hands {
-        HIGH_CARD,
-        ONE_PAIR,
-        TWO_PAIR,
-        THREE_OF_A_KIND,
-        STRAIGHT,
-        FLUSH,
-        FULL_HOUSE,
-        FOUR_OF_A_KIND,
-        STRAIGHT_FLUSH;
+    public static Hand containsPair(ArrayList<Card> cards) {
+        ArrayList<Card> streak = new ArrayList<Card>();
+
+        for (int i = 0; i < cards.size()-1; i++) {
+            streak.add(cards.get(i));
+            Card next = cards.get(i+1);
+
+            if (cards.get(i).getRank().equals(next.getRank())) {
+                streak.add(next);
+            } else {
+                streak.clear();
+            }
+
+            if (streak.size() == 2) {
+                Hand hand = new Hand();
+
+                hand.setHandRank(Hands.ONE_PAIR);
+
+                hand.addAll(streak);
+
+                for (Card card : cards) {
+                    if (hand.getCards().size() == 5) {
+                        break;
+                    }
+
+                    if (! streak.contains(card)) {
+                        hand.add(card);
+                    }
+                }
+
+                return hand;
+            }
+        }
+
+        return null;
     }
 
-    public static int rankHand(ArrayList<Card> player, ArrayList<Card> community) {
+    public static Hand rankHand(ArrayList<Card> player, ArrayList<Card> community) {
         ArrayList<Card> cards = new ArrayList<Card>();
 
         cards.addAll(player);
@@ -47,8 +73,11 @@ public class HoldEm {
         Collections.sort(cards, Collections.reverseOrder());
 
         System.out.println(cards);
+        Hand hand = containsPair(cards);
+        System.out.println(hand);
 
-        return 0;
+
+        return hand;
     }
 
     public static void main(String[] args) {
