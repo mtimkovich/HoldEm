@@ -26,51 +26,30 @@ class Player {
 }
 
 public class HoldEm {
-    /*
-    public static boolean containsRoyalFlush(CardList<Card> cards) {
-        // TODO Check if top card is ace
-        
-        for (int i = 0; i < 5; i++) {
-            Card cur = cards.get(i);
-            Card next = cards.get(i+1);
-
-            if (! cur.getSuit().equals(next.getSuit()) || cur.getValue()-1 != cur.getValue()) {
-                return false;
-            }
-        }
-        
-        return true;
-    }
-    
-    public static boolean containsFourOfAKind(CardList<Card> cards) {
-        int streak = 0;
-        for (int i = 0; i < cards.size()-1; i++) {
-            Card cur = cards.get(i);
-            Card next = cards.get(i+1);
-
-            if (cur.getValue() == next.getValue()) {
-                return false;
-            }
-        }
-        
-        return true;
+    public enum Hands {
+        HIGH_CARD,
+        ONE_PAIR,
+        TWO_PAIR,
+        THREE_OF_A_KIND,
+        STRAIGHT,
+        FLUSH,
+        FULL_HOUSE,
+        FOUR_OF_A_KIND,
+        STRAIGHT_FLUSH;
     }
 
-    public static int rankHand(CardList<Card> player, CardList<Card> community) {
-        CardList<Card> cards = new CardList<Card>();
+    public static int rankHand(ArrayList<Card> player, ArrayList<Card> community) {
+        ArrayList<Card> cards = new ArrayList<Card>();
 
-        for (Card card : player) {
-            cards.add(card.clone());
-        }
-
+        cards.addAll(player);
         cards.addAll(community);
+
         Collections.sort(cards, Collections.reverseOrder());
 
         System.out.println(cards);
 
         return 0;
     }
-    */
 
     public static void main(String[] args) {
         Deck deck = new Deck();
@@ -108,10 +87,10 @@ public class HoldEm {
             community.add(deck.draw());
         }
 
-        System.out.println(community);
-        System.out.println(players.get(0));
+//         System.out.println(community);
+//         System.out.println(players.get(0));
 
-//         rankHand(players.get(0).getHand(), community);
+        rankHand(players.get(0).getHand(), community);
         
 //         for (int i = 0; i < PLAYER_COUNT; i++) {
 //             System.out.println(players.get(i));
