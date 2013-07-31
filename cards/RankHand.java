@@ -1,12 +1,19 @@
 package cards;
 
 import java.util.*;
+import cards.*;
+import cards.Hand.*;
 
 public class RankHand {
-    public static Hand containsStreak(List<Card> cards, int length) {
+    // prev is so the full house and two pair functions can use this method
+    private static Hand containsStreak(List<Card> cards, int length, Card.Rank prev) {
         List<Card> streak = new ArrayList<Card>();
 
         for (int i = 0; i < cards.size()-1; i++) {
+            if (prev != null && cards.get(i).getRank().compareTo(prev) >= 0) {
+                continue;
+            }
+
             Card next = cards.get(i+1);
 
             if (cards.get(i).getRank().equals(next.getRank())) {
@@ -32,7 +39,9 @@ public class RankHand {
                     }
 
                     if (! hand.getCards().contains(card)) {
-                        hand.add(card);
+                        if (prev != null && card.getRank().compareTo(prev) != 0) {
+                            hand.add(card);
+                        }
                     }
                 }
 
@@ -43,17 +52,44 @@ public class RankHand {
         return null;
     }
 
-    public static Hand containsTwoPair(List<Card> cards) {
+    private static Hand containsStreak(List<Card> cards, int length) {
+        return containsStreak(cards, length, null);
+    }
+
+    private static Hand containsTwoPair(List<Card> cards) {
+        Hand output = new Hand();
         Hand onePair = containsStreak(cards, 2);
 
         if (onePair == null) {
             return null;
         }
 
-        return null;
+        Card.Rank onePairRank = onePair.getCards().get(0).getRank(); 
+
+        Hand twoPair = containsStreak(cards, 2, onePairRank);
+
+        if (twoPair == null) {
+            return null;
+        }
+
+        List onePairCards = onePair.getCards().subList(0, 2);
+        List twoPairCards = twoPair.getCards();
+
+        // Reduce twoPair two the pair and its high card
+        while (twoPairCards.size() > 3) {
+            twoPairCards.remove(twoPairCards.size()-1);
+        }
+
+        output.setHandRank(Hands.TWO_PAIR);
+        output.addAll(onePairCards);
+        output.addAll(twoPairCards);
+
+        System.out.println(output);
+
+        return output;
     }
 
-    public static Hand rank(List<Card> player, List<Card> community) {
+    public Hand rank(List<Card> player, List<Card> community) {
         List<Card> cards = new ArrayList<Card>();
 
         cards.addAll(player);
@@ -62,16 +98,16 @@ public class RankHand {
         Collections.sort(cards, Collections.reverseOrder());
 
         System.out.println(cards);
-        Hand hand = null;
+        Hand hand = containsTwoPair(cards);
 
-        for (int i = 4; i >= 2; i--) {
-            hand = containsStreak(cards, i);
-
-            if (hand != null) {
-                System.out.println(hand);
-                break;
-            }
-        }
+//         for (int i = 4; i >= 2; i--) {
+//             hand = containsStreak(cards, i);
+// 
+//             if (hand != null) {
+//                 System.out.println(hand);
+//                 break;
+//             }
+//         }
 
 
         return hand;
