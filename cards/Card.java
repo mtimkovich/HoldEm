@@ -60,6 +60,10 @@ public class Card implements Cloneable, Comparable<Card> {
         return rank;
     }
 
+    public int getRankInt() {
+        return rank.ordinal();
+    }
+
     @Override
     public Card clone() {
         return new Card(suit, rank);

@@ -161,6 +161,37 @@ public class RankHand {
         return null;
     }
 
+    private static Hand containsStraight(List<Card> cards) {
+        List<Card> streak = new ArrayList<Card>();
+
+        for (int i = 0; i < cards.size()-1; i++) {
+            Card next = cards.get(i+1);
+
+            if (cards.get(i).getRankInt()-1 == next.getRankInt()) {
+                if (streak.isEmpty()) {
+                    streak.add(cards.get(i));
+                }
+
+                streak.add(next);
+            } else if (cards.get(i).getRankInt() == next.getRankInt()) {
+                ;
+            } else {
+                streak.clear();
+            }
+
+            if (streak.size() == 5) {
+                Hand hand = new Hand();
+
+                hand.setHandRank(Hands.STRAIGHT);
+                hand.addAll(streak);
+
+                return hand;
+            }
+        }
+
+        return null;
+    }
+
     public Hand rank(List<Card> player, List<Card> community) {
         List<Card> cards = new ArrayList<Card>();
 
@@ -169,8 +200,9 @@ public class RankHand {
 
         Collections.sort(cards, Collections.reverseOrder());
 
-//         System.out.println(cards);
-        Hand hand = containsFlush(cards);
+        System.out.println(cards);
+        Hand hand = containsStraight(cards);
+        System.out.println(hand);
 
 //         for (int i = 4; i >= 2; i--) {
 //             hand = containsStreak(cards, i);
