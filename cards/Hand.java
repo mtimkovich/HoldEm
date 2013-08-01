@@ -70,12 +70,6 @@ public class Hand implements Comparable<Hand> {
         }
     }
 
-    public void copy(Hand b) {
-        setHandRank(b.getHandRank());
-        cards.clear();
-        cards.addAll(b.getCards());
-    }
-
     @Override
     public String toString() {
         return handRank.toString() + ": " + cards.toString();
