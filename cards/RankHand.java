@@ -20,7 +20,7 @@ public class RankHand {
     };
 
     // prev is so the full house and two pair functions can use this method
-    private static Hand containsStreak(List<Card> cards, int length, Card.Rank prev) {
+    private static Hand getStreak(List<Card> cards, int length, Rank prev) {
         List<Card> streak = new ArrayList<Card>();
 
         for (int i = 0; i < cards.size()-1; i++) {
@@ -47,13 +47,14 @@ public class RankHand {
 
                 hand.addAll(streak);
 
+
                 for (Card card : cards) {
                     if (hand.getCards().size() == 5) {
                         break;
                     }
 
-                    if (! hand.getCards().contains(card)) {
-                        if (prev != null && card.getRank().compareTo(prev) != 0) {
+                    if (! streak.contains(card)) {
+                        if (prev == null || card.getRank().compareTo(prev) != 0) {
                             hand.add(card);
                         }
                     }
@@ -66,14 +67,14 @@ public class RankHand {
         return null;
     }
 
-    private static Hand containsStreak(List<Card> cards, int length) {
-        return containsStreak(cards, length, null);
+    private static Hand getStreak(List<Card> cards, int length) {
+        return getStreak(cards, length, null);
     }
 
-    private static Hand containsFullHouse(List<Card> cards) {
+    private static Hand getFullHouse(List<Card> cards) {
         Hand output = new Hand();
 
-        Hand three = containsStreak(cards, 3);
+        Hand three = getStreak(cards, 3);
 
         if (three == null) {
             return null;
@@ -81,7 +82,7 @@ public class RankHand {
 
         Card.Rank threeRank = three.getCards().get(0).getRank(); 
 
-        Hand two = containsStreak(cards, 2, threeRank);
+        Hand two = getStreak(cards, 2, threeRank);
 
         if (two == null) {
             return null;
@@ -98,9 +99,9 @@ public class RankHand {
         return output;
     }
 
-    private static Hand containsTwoPair(List<Card> cards) {
+    private static Hand getTwoPair(List<Card> cards) {
         Hand output = new Hand();
-        Hand onePair = containsStreak(cards, 2);
+        Hand onePair = getStreak(cards, 2);
 
         if (onePair == null) {
             return null;
@@ -108,7 +109,7 @@ public class RankHand {
 
         Card.Rank onePairRank = onePair.getCards().get(0).getRank(); 
 
-        Hand twoPair = containsStreak(cards, 2, onePairRank);
+        Hand twoPair = getStreak(cards, 2, onePairRank);
 
         if (twoPair == null) {
             return null;
@@ -130,7 +131,7 @@ public class RankHand {
         return output;
     }
 
-    private static Hand containsFlush(List<Card> cards) {
+    private static Hand getFlush(List<Card> cards) {
         List<Card> newCards = new ArrayList<Card>(cards);
         Collections.sort(newCards, sortBySuit);
 
@@ -157,7 +158,7 @@ public class RankHand {
         return null;
     }
 
-    private static Hand containsStraight(List<Card> cards) {
+    private static Hand getStraight(List<Card> cards) {
         List<Card> streak = new ArrayList<Card>();
 
         for (int i = 0; i < cards.size()-1; i++) {
@@ -183,7 +184,7 @@ public class RankHand {
         return null;
     }
 
-    private static Hand containsStraightFlush(List<Card> oldCards) {
+    private static Hand getStraightFlush(List<Card> oldCards) {
         List<Card> cards = new ArrayList<Card>(oldCards);
         Collections.sort(cards, sortBySuit);
 
@@ -215,6 +216,16 @@ public class RankHand {
     private static Hand highCard(List<Card> cards) {
         return new Hand(Hands.HIGH_CARD, cards.subList(0, 5));
     }
+    
+    private Hand replaceIfBetter(Hand a, Hand b) {
+        if (b != null) {
+            if (a.compareTo(b) > 0) {
+                a.copy(b);
+            }
+        }
+
+        return a;
+    }
 
     public Hand rank(List<Card> player, List<Card> community) {
         List<Card> cards = new ArrayList<Card>();
@@ -222,10 +233,53 @@ public class RankHand {
         cards.addAll(player);
         cards.addAll(community);
 
+//         cards.add(new Card(Suit.HEART, Rank.ACE));
+//         cards.add(new Card(Suit.SPADE, Rank.ACE));
+//         cards.add(new Card(Suit.HEART, Rank.QUEEN));
+//         cards.add(new Card(Suit.HEART, Rank.JACK));
+//         cards.add(new Card(Suit.HEART, Rank.NINE));
+
         Collections.sort(cards, Collections.reverseOrder());
 
-        Hand hand = highCard(cards);
+        Map<Hands, Hand> hands = new HashMap<Hands, Hand>();
 
+        // These if statements are so more hand checks aren't done than necessary
+        hands.put(Hands.HIGH_CARD, highCard(cards));
+        hands.put(Hands.STRAIGHT, getStraight(cards));
+        hands.put(Hands.FLUSH, getFlush(cards));
+
+        if (hands.get(Hands.STRAIGHT) != null && hands.get(Hands.FLUSH) != null) {
+            hands.put(Hands.STRAIGHT_FLUSH, getStraightFlush(cards));
+        }
+
+        hands.put(Hands.ONE_PAIR, getStreak(cards, 2));
+
+        if (hands.get(Hands.ONE_PAIR) != null) {
+            hands.put(Hands.TWO_PAIR, getTwoPair(cards));
+
+            if (hands.get(Hands.TWO_PAIR) != null) {
+                hands.put(Hands.FULL_HOUSE, getFullHouse(cards));
+            }
+
+            hands.put(Hands.THREE_OF_A_KIND, getStreak(cards, 3));
+
+            if (hands.get(Hands.THREE_OF_A_KIND) != null) {
+                hands.put(Hands.FOUR_OF_A_KIND, getStreak(cards, 4));
+            }
+        }
+
+        Hand hand = null;
+
+        // Loop through all the hand objects and pick the highest one
+        for (Hands h: Hands.values()) {
+            Hand result = hands.get(h);
+
+            if (result != null) {
+                hand = result;
+            }
+        }
+
+        System.out.println(hand);
         return hand;
     }
 }

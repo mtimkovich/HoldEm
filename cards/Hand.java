@@ -2,12 +2,12 @@ package cards;
 
 import java.util.*;
 
-public class Hand {
+public class Hand implements Comparable<Hand> {
     public enum Hands {
         HIGH_CARD("High Card"),
         ONE_PAIR("One Pair"),
         TWO_PAIR("Two Pair"),
-        THREE_OF_A_KIND("Three Pair"),
+        THREE_OF_A_KIND("Three of a Kind"),
         STRAIGHT("Straight"),
         FLUSH("Flush"),
         FULL_HOUSE("Full House"),
@@ -40,6 +40,10 @@ public class Hand {
         handRank = h;
     }
 
+    public Hands getHandRank() {
+        return handRank;
+    }
+
     public void add(Card c) {
         cards.add(c);
     }
@@ -66,8 +70,23 @@ public class Hand {
         }
     }
 
+    public void copy(Hand b) {
+        setHandRank(b.getHandRank());
+        cards.clear();
+        cards.addAll(b.getCards());
+    }
+
     @Override
     public String toString() {
         return handRank.toString() + ": " + cards.toString();
+    }
+
+    @Override
+    public int compareTo(Hand b) {
+        if (b == null) {
+            return 1;
+        }
+
+        return -getHandRank().compareTo(b.getHandRank());
     }
 }
