@@ -29,6 +29,13 @@ public class Hand {
     private Hands handRank;
     private List<Card> cards = new ArrayList<Card>();
 
+    public Hand() {};
+
+    public Hand(Hands h, List<Card> c) {
+        handRank = h;
+        cards.addAll(c);
+    }
+
     public void setHandRank(Hands h) {
         handRank = h;
     }

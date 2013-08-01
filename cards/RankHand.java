@@ -150,12 +150,7 @@ public class RankHand {
             }
 
             if (streak.size() == 5) {
-                Hand hand = new Hand();
-
-                hand.setHandRank(Hands.FLUSH);
-                hand.addAll(streak);
-
-                return hand;
+                return new Hand(Hands.FLUSH, streak);
             }
         }
 
@@ -181,12 +176,7 @@ public class RankHand {
             }
 
             if (streak.size() == 5) {
-                Hand hand = new Hand();
-
-                hand.setHandRank(Hands.STRAIGHT);
-                hand.addAll(streak);
-
-                return hand;
+                return new Hand(Hands.STRAIGHT, streak);
             }
         }
 
@@ -215,12 +205,7 @@ public class RankHand {
             }
 
             if (streak.size() == 5) {
-                Hand hand = new Hand();
-
-                hand.setHandRank(Hands.STRAIGHT_FLUSH);
-                hand.addAll(streak);
-
-                return hand;
+                return new Hand(Hands.STRAIGHT_FLUSH, streak);
             }
         }
 
@@ -228,7 +213,7 @@ public class RankHand {
     }
 
     private static Hand highCard(List<Card> cards) {
-        return cards.subList(0, 5);
+        return new Hand(Hands.HIGH_CARD, cards.subList(0, 5));
     }
 
     public Hand rank(List<Card> player, List<Card> community) {
@@ -238,6 +223,8 @@ public class RankHand {
         cards.addAll(community);
 
         Collections.sort(cards, Collections.reverseOrder());
+
+        Hand hand = highCard(cards);
 
         return hand;
     }
