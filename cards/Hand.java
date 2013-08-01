@@ -77,10 +77,23 @@ public class Hand implements Comparable<Hand> {
 
     @Override
     public int compareTo(Hand b) {
-        if (b == null) {
-            return 1;
-        }
+        int handCompare = -getHandRank().compareTo(b.getHandRank());
 
-        return -getHandRank().compareTo(b.getHandRank());
+        if (handCompare != 0) {
+            return handCompare;
+        } else {
+            List<Card> aList = getCards();
+            List<Card> bList = b.getCards();
+
+            for (int i = 0; i < aList.size(); i++) {
+                int compare = -aList.get(i).compareTo(bList.get(i));
+
+                if (compare != 0) {
+                    return compare;
+                }
+            }
+
+            return 0;
+        }
     }
 }
