@@ -279,7 +279,6 @@ public class RankHand {
             }
         }
 
-        System.out.println(hand);
         return hand;
     }
 }

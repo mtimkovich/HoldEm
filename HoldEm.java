@@ -5,6 +5,7 @@ import cards.Hand.*;
 class Player {
     private List<Card> hand = new ArrayList<Card>();
     private String name;
+    private Hand handRank;
 
     public Player(String n) {
         name = n;
@@ -18,6 +19,18 @@ class Player {
 
     public List<Card> getHand() {
         return hand;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Hand getHandRank() {
+        return handRank;
+    }
+
+    public void setHandRank(Hand h) {
+        handRank = h;
     }
 
     @Override
@@ -64,15 +77,26 @@ public class HoldEm {
             community.add(deck.draw());
         }
 
-//         System.out.println(community);
-//         System.out.println(players.get(0));
-
         RankHand rankHand = new RankHand();
-        rankHand.rank(players.get(0).getHand(), community);
         
-//         for (int i = 0; i < PLAYER_COUNT; i++) {
-//             System.out.println(players.get(i));
-//         }
+        for (int i = 0; i < PLAYER_COUNT; i++) {
+            Player player = players.get(i);
+            player.setHandRank(rankHand.rank(player.getHand(), community));
+            System.out.println(player.getName() + ": " + player.getHandRank());
+        }
+
+        int winnerIndex = 0;
+        Hand tempHand = players.get(0).getHandRank();
+        for (int i = 1; i < PLAYER_COUNT; i++) {
+            Hand playerHandRank = players.get(i).getHandRank();
+            if (tempHand.compareTo(playerHandRank) > 0) {
+                tempHand = playerHandRank;
+                winnerIndex = i;
+            }
+        }
+
+        System.out.println("Winner is " + players.get(winnerIndex).getName());
+
     }
 }
 
