@@ -24,7 +24,7 @@ public class RankHand {
         List<Card> streak = new ArrayList<Card>();
 
         for (int i = 0; i < cards.size()-1; i++) {
-            if (prev != null && cards.get(i).getRank().compareTo(prev) >= 0) {
+            if (prev != null && cards.get(i).getRank().compareTo(prev) == 0) {
                 continue;
             }
 
@@ -80,7 +80,7 @@ public class RankHand {
             return null;
         }
 
-        Card.Rank threeRank = three.getCards().get(0).getRank(); 
+        Rank threeRank = three.getCards().get(0).getRank(); 
 
         Hand two = getStreak(cards, 2, threeRank);
 
@@ -235,9 +235,9 @@ public class RankHand {
 
 //         cards.add(new Card(Suit.HEART, Rank.ACE));
 //         cards.add(new Card(Suit.SPADE, Rank.ACE));
-//         cards.add(new Card(Suit.HEART, Rank.QUEEN));
-//         cards.add(new Card(Suit.HEART, Rank.JACK));
-//         cards.add(new Card(Suit.HEART, Rank.NINE));
+//         cards.add(new Card(Suit.HEART, Rank.SIX));
+//         cards.add(new Card(Suit.CLUB, Rank.SIX));
+//         cards.add(new Card(Suit.SPADE, Rank.SIX));
 
         Collections.sort(cards, Collections.reverseOrder());
 
