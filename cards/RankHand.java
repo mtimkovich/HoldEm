@@ -217,16 +217,6 @@ public class RankHand {
         return new Hand(Hands.HIGH_CARD, cards.subList(0, 5));
     }
     
-    private Hand replaceIfBetter(Hand a, Hand b) {
-        if (b != null) {
-            if (a.compareTo(b) > 0) {
-                a.copy(b);
-            }
-        }
-
-        return a;
-    }
-
     public Hand rank(List<Card> player, List<Card> community) {
         List<Card> cards = new ArrayList<Card>();
 
