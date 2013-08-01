@@ -24,13 +24,13 @@ public class RankHand {
         List<Card> streak = new ArrayList<Card>();
 
         for (int i = 0; i < cards.size()-1; i++) {
-            if (prev != null && cards.get(i).getRank().equals(prev)) {
+            if (prev != null && cards.get(i).isSameRank(prev)) {
                 continue;
             }
 
             Card next = cards.get(i+1);
 
-            if (cards.get(i).getRank().equals(next.getRank())) {
+            if (cards.get(i).isSameRank(next)) {
                 if (streak.isEmpty()) {
                     streak.add(cards.get(i));
                 }
@@ -54,7 +54,7 @@ public class RankHand {
                     }
 
                     if (! streak.contains(card)) {
-                        if (prev == null || card.getRank().compareTo(prev) != 0) {
+                        if (prev == null || !card.isSameRank(prev)) {
                             hand.add(card);
                         }
                     }
