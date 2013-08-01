@@ -24,7 +24,7 @@ public class RankHand {
         List<Card> streak = new ArrayList<Card>();
 
         for (int i = 0; i < cards.size()-1; i++) {
-            if (prev != null && cards.get(i).getRank().compareTo(prev) == 0) {
+            if (prev != null && cards.get(i).getRank().equals(prev)) {
                 continue;
             }
 
