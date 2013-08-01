@@ -2,6 +2,7 @@ package cards;
 
 import java.util.*;
 import cards.*;
+import cards.Card.*;
 import cards.Hand.*;
 
 public class RankHand {
@@ -167,7 +168,7 @@ public class RankHand {
         for (int i = 0; i < cards.size()-1; i++) {
             Card next = cards.get(i+1);
 
-            if (cards.get(i).getRankInt()-1 == next.getRankInt()) {
+            if (cards.get(i).isDecr(next)) {
                 if (streak.isEmpty()) {
                     streak.add(cards.get(i));
                 }
@@ -192,6 +193,40 @@ public class RankHand {
         return null;
     }
 
+    private static Hand containsStraightFlush(List<Card> oldCards) {
+        List<Card> cards = new ArrayList<Card>(oldCards);
+        Collections.sort(cards, sortBySuit);
+
+        List<Card> streak = new ArrayList<Card>();
+
+        for (int i = 0; i < cards.size()-1; i++) {
+            Card next = cards.get(i+1);
+
+            if (cards.get(i).isDecr(next) &&
+                    cards.get(i).getSuit().equals(next.getSuit())) {
+
+                if (streak.isEmpty()) {
+                    streak.add(cards.get(i));
+                }
+
+                streak.add(next);
+            } else {
+                streak.clear();
+            }
+
+            if (streak.size() == 5) {
+                Hand hand = new Hand();
+
+                hand.setHandRank(Hands.STRAIGHT_FLUSH);
+                hand.addAll(streak);
+
+                return hand;
+            }
+        }
+
+        return null;
+    }
+
     public Hand rank(List<Card> player, List<Card> community) {
         List<Card> cards = new ArrayList<Card>();
 
@@ -199,20 +234,6 @@ public class RankHand {
         cards.addAll(community);
 
         Collections.sort(cards, Collections.reverseOrder());
-
-        System.out.println(cards);
-        Hand hand = containsStraight(cards);
-        System.out.println(hand);
-
-//         for (int i = 4; i >= 2; i--) {
-//             hand = containsStreak(cards, i);
-// 
-//             if (hand != null) {
-//                 System.out.println(hand);
-//                 break;
-//             }
-//         }
-
 
         return hand;
     }

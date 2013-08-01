@@ -1,6 +1,6 @@
 package cards;
 
-public class Card implements Cloneable, Comparable<Card> {
+public class Card implements Comparable<Card> {
     public enum Suit {
         HEART("♥"),
         CLUB("♣"),
@@ -64,9 +64,8 @@ public class Card implements Cloneable, Comparable<Card> {
         return rank.ordinal();
     }
 
-    @Override
-    public Card clone() {
-        return new Card(suit, rank);
+    public boolean isDecr(Card b) {
+        return getRankInt()-1 == b.getRankInt();
     }
 
     @Override
