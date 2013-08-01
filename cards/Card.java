@@ -68,6 +68,10 @@ public class Card implements Comparable<Card> {
         return getRankInt()-1 == b.getRankInt();
     }
 
+    public boolean isSameSuit(Card b) {
+        return getSuit().equals(b.getSuit());
+    }
+
     @Override
     public int compareTo(Card b) {
         if (rank.compareTo(b.getRank()) > 0) {

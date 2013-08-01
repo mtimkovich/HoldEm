@@ -139,7 +139,7 @@ public class RankHand {
         for (int i = 0; i < newCards.size()-1; i++) {
             Card next = newCards.get(i+1);
 
-            if (newCards.get(i).getSuit().equals(next.getSuit())) {
+            if (newCards.get(i).isSameSuit(next)) {
                 if (streak.isEmpty()) {
                     streak.add(newCards.get(i));
                 }
@@ -203,7 +203,7 @@ public class RankHand {
             Card next = cards.get(i+1);
 
             if (cards.get(i).isDecr(next) &&
-                    cards.get(i).getSuit().equals(next.getSuit())) {
+                    cards.get(i).isSameSuit(next)) {
 
                 if (streak.isEmpty()) {
                     streak.add(cards.get(i));
@@ -225,6 +225,10 @@ public class RankHand {
         }
 
         return null;
+    }
+
+    private static Hand highCard(List<Card> cards) {
+        return cards.subList(0, 5);
     }
 
     public Hand rank(List<Card> player, List<Card> community) {
