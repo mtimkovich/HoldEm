@@ -25,7 +25,6 @@ public class Deck {
         return cards.get(deckPointer++);
     }
 
-    @Override
     public String toString() {
         return cards.toString();
     }

@@ -80,7 +80,6 @@ public class Card implements Comparable<Card> {
         return getRank().equals(b);
     }
 
-    @Override
     public int compareTo(Card b) {
         int rankCompare = rank.compareTo(b.getRank());
 
@@ -91,7 +90,6 @@ public class Card implements Comparable<Card> {
         }
     }
 
-    @Override
     public String toString() {
         return rank.toString() + suit.toString();
     }

@@ -20,7 +20,6 @@ public class Hand implements Comparable<Hand> {
             output = o;
         }
 
-        @Override
         public String toString() {
             return output;
         }
@@ -70,12 +69,10 @@ public class Hand implements Comparable<Hand> {
         }
     }
 
-    @Override
     public String toString() {
         return handRank.toString() + ": " + cards.toString();
     }
 
-    @Override
     public int compareTo(Hand b) {
         int handCompare = -getHandRank().compareTo(b.getHandRank());
 
