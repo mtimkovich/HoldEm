@@ -89,8 +89,8 @@ public class RankHand {
         }
 
         // Extract just the streaks from three and two
-        List threeCards = three.getCards().subList(0, 3);
-        List twoCards = two.getCards().subList(0, 2);
+        List<Card> threeCards = three.getCards().subList(0, 3);
+        List<Card> twoCards = two.getCards().subList(0, 2);
 
         output.setHandRank(Hands.FULL_HOUSE);
         output.addAll(threeCards);
@@ -116,8 +116,8 @@ public class RankHand {
         }
 
         // Extract just the pair from onePair
-        List onePairCards = onePair.getCards().subList(0, 2);
-        List twoPairCards = twoPair.getCards();
+        List<Card> onePairCards = onePair.getCards().subList(0, 2);
+        List<Card> twoPairCards = twoPair.getCards();
 
         // Reduce twoPair two the pair and its high card
         while (twoPairCards.size() > 3) {
