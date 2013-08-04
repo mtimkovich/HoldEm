@@ -60,7 +60,7 @@ public class Card implements Comparable<Card> {
         return rank;
     }
 
-    public int getRankInt() {
+    private int getRankInt() {
         return rank.ordinal();
     }
 
@@ -82,18 +82,12 @@ public class Card implements Comparable<Card> {
 
     @Override
     public int compareTo(Card b) {
-        if (rank.compareTo(b.getRank()) > 0) {
-            return 1;
-        } else if (rank.compareTo(b.getRank()) < 0) {
-            return -1;
+        int rankCompare = rank.compareTo(b.getRank());
+
+        if (rankCompare != 0) {
+            return rankCompare;
         } else {
-            if (suit.compareTo(b.getSuit()) > 0) {
-                return 1;
-            } else if (suit.compareTo(b.getSuit()) < 0) {
-                return -1;
-            } else {
-                return 0;
-            }
+            return suit.compareTo(b.getSuit());
         }
     }
 

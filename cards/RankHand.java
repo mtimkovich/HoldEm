@@ -170,7 +170,7 @@ public class RankHand {
                 }
 
                 streak.add(next);
-            } else if (cards.get(i).getRankInt() == next.getRankInt()) {
+            } else if (cards.get(i).isSameRank(next)) {
                 ;
             } else {
                 streak.clear();

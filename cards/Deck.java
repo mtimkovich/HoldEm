@@ -18,13 +18,7 @@ public class Deck {
     public void shuffle() {
         deckPointer = 0;
 
-        for (int i = 0; i < cards.size()-1; i++) {
-            int newIndex = i + (int) (Math.random() * (cards.size() - i));
-
-            Card tmp = cards.get(newIndex);
-            cards.set(newIndex, cards.get(i));
-            cards.set(i, tmp);
-        }
+        Collections.shuffle(cards);
     }
 
     public Card draw() {
